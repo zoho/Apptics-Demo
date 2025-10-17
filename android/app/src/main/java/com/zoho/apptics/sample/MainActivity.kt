@@ -14,18 +14,22 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.zoho.apptics.sample.ui.theme.AppticsAndroidTheme
-import com.zoho.apptics.sample.ui.TrackedScreen
-import com.zoho.apptics.sample.ui.home.TodoHomeRoute
-import com.zoho.apptics.sample.ui.settings.SettingsRoute
-import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import com.zoho.apptics.analytics.AppticsAnalytics
 import com.zoho.apptics.sample.analytics.AppticsTracker
 import com.zoho.apptics.sample.analytics.TodoEvent
+import com.zoho.apptics.sample.ui.TrackedScreen
+import com.zoho.apptics.sample.ui.findActivity
+import com.zoho.apptics.sample.ui.home.TodoHomeRoute
+import com.zoho.apptics.sample.ui.settings.SettingsRoute
+import com.zoho.apptics.sample.ui.theme.AppticsAndroidTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,8 +45,15 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 }
-
                 var selectedDestination by rememberSaveable { mutableStateOf(MainDestination.HOME) }
+                val context = LocalContext.current
+                LaunchedEffect(Unit) {
+                    context.findActivity()?.let { activity ->
+                        AppticsAnalytics.showReviewTrackingSettingsPopup(activity, {
+                            selectedDestination = MainDestination.SETTINGS
+                        }, showOnlyOnce = true)
+                    }
+                }
 
                 Scaffold(
                     bottomBar = {
@@ -83,6 +94,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
 private enum class MainDestination(
     val label: String,

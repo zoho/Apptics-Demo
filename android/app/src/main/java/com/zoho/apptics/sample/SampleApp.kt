@@ -2,8 +2,8 @@ package com.zoho.apptics.sample
 
 import android.app.Application
 import com.zoho.apptics.common.Apptics
-import com.zoho.apptics.common.AppticsUser
-import java.util.Locale
+import com.zoho.apptics.common.AppticsSettings
+import com.zoho.apptics.feedback.AppticsFeedback
 
 class SampleApp : Application() {
 
@@ -11,17 +11,9 @@ class SampleApp : Application() {
         super.onCreate()
 
         Apptics.init(this)
-        configureSampleUser()
+        AppticsFeedback.enableShakeForFeedback()
+        AppticsSettings.setPopupThemeRes(R.style.AppticsAlertTheme)
     }
 
-    private fun configureSampleUser() {
-        val userProperty =
-            AppticsUser.AppticsUserPropertyBuilder()
-                .setFirstName("Mia")
-                .setPlanType("pro")
-                .setLanguage(Locale.getDefault().toLanguageTag())
-                .build()
-        AppticsUser.setUser(userId = "coach-mia", userProperty = userProperty)
-    }
 
 }

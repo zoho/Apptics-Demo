@@ -41,15 +41,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.zoho.apptics.analytics.AppticsAnalytics
+import com.zoho.apptics.common.Apptics
+import com.zoho.apptics.common.AppticsSettings
+import com.zoho.apptics.common.AppticsTrackingState
+import com.zoho.apptics.common.AppticsUser
 import com.zoho.apptics.sample.analytics.TodoEvent
 import com.zoho.apptics.sample.data.FakeTodoRepository
 import com.zoho.apptics.sample.model.Task
 import com.zoho.apptics.sample.model.TaskCategory
+import java.util.Locale
 
 @Composable
 fun TodoHomeRoute(onEvent: (TodoEvent) -> Unit) {
     TodoHomeScreen(onEvent)
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
