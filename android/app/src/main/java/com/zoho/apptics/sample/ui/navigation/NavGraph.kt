@@ -6,11 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.zoho.apptics.sample.ui.features.analytics.AnalyticsScreen
+import com.zoho.apptics.sample.ui.features.apitracking.ApiTrackingScreen
 import com.zoho.apptics.sample.ui.features.crash.CrashScreen
 import com.zoho.apptics.sample.ui.features.crosspromo.CrossPromoScreen
 import com.zoho.apptics.sample.ui.features.feedback.FeedbackScreen
 import com.zoho.apptics.sample.ui.features.logging.LoggingScreen
-import com.zoho.apptics.sample.ui.features.push.PushScreen
 import com.zoho.apptics.sample.ui.features.ratings.RatingsScreen
 import com.zoho.apptics.sample.ui.features.remoteconfig.RemoteConfigScreen
 import com.zoho.apptics.sample.ui.features.updates.UpdatesScreen
@@ -50,8 +50,8 @@ fun AppticsSampleNavGraph(navController: NavHostController = rememberNavControll
         composable(Route.CrossPromo.path) {
             CrossPromoScreen(onBack = { navController.popBackStack() })
         }
-        composable(Route.Push.path) {
-            PushScreen(onBack = { navController.popBackStack() })
+        composable(Route.ApiTracking.path) {
+            ApiTrackingScreen(onBack = { navController.popBackStack() })
         }
     }
 }

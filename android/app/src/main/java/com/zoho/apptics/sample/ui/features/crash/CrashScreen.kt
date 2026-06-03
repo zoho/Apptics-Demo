@@ -1,8 +1,5 @@
 package com.zoho.apptics.sample.ui.features.crash
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.ErrorOutline
@@ -17,14 +14,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.zoho.apptics.sample.ui.components.CodeBlock
 import com.zoho.apptics.sample.ui.components.FeatureScaffold
 import com.zoho.apptics.sample.ui.components.LabeledTextField
 import com.zoho.apptics.sample.ui.components.LiveStatePanel
 import com.zoho.apptics.sample.ui.components.RunButton
-import com.zoho.apptics.sample.ui.components.SecondaryButton
 import com.zoho.apptics.sample.ui.components.SectionCard
 import com.zoho.apptics.crash.AppticsNonFatals
 
@@ -84,46 +78,6 @@ fun CrashScreen(onBack: () -> Unit) {
             }
         }
 
-        SectionCard(
-            title = "Cross-platform crash hooks",
-            subtitle = "If you ship a hybrid app, forward JS/Flutter stack traces with these helpers."
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                SecondaryButton(label = "Record JS crash", modifier = Modifier.weight(1f)) {
-                    runCatching {
-                        // Forwards a JavaScript stack trace from a hybrid layer
-                        // (React Native, Cordova, etc.) into Apptics crash
-                        // reporting so JS errors show up alongside native ones.
-                        // Docs: https://www.zoho.com/apptics/resources/SDK/android-crashreporting.html
-                        com.zoho.apptics.crash.AppticsCrashTracker.recordJsCrash(
-                            "SampleJsError",
-                            "at handleClick (app.js:42)\nat dispatch (react.js:10)"
-                        )
-                        lastAction = "recordJsCrash(SampleJsError)"
-                    }.onFailure {
-                        lastAction = "recordJsCrash not available in this SDK version"
-                    }
-                }
-                SecondaryButton(label = "Record Flutter crash", modifier = Modifier.weight(1f)) {
-                    runCatching {
-                        // Same idea as recordJsCrash but for Flutter — forwards a
-                        // Dart stack trace caught by a FlutterError handler.
-                        // Docs: https://www.zoho.com/apptics/resources/SDK/android-crashreporting.html
-                        com.zoho.apptics.crash.AppticsCrashTracker.recordFlutterCrash(
-                            "SampleFlutterError",
-                            "at _MyHomePageState.build (lib/main.dart:42)"
-                        )
-                        lastAction = "recordFlutterCrash(SampleFlutterError)"
-                    }.onFailure {
-                        lastAction = "recordFlutterCrash not available in this SDK version"
-                    }
-                }
-            }
-        }
-
         LiveStatePanel(
             rows = listOf(
                 "Non-fatals recorded" to nonFatalsRecorded.toString(),
@@ -139,10 +93,6 @@ fun CrashScreen(onBack: () -> Unit) {
 
                 // Fatal — let the exception propagate
                 throw NullPointerException("forced crash")
-
-                // Hybrid stack traces
-                AppticsCrashTracker.recordJsCrash(name, stackTrace)
-                AppticsCrashTracker.recordFlutterCrash(name, stackTrace)
             """.trimIndent()
         )
     }

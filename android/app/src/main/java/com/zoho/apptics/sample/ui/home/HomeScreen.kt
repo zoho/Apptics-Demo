@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Analytics
+import androidx.compose.material.icons.filled.Api
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Campaign
 import androidx.compose.material.icons.automirrored.filled.Chat
@@ -27,7 +28,6 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material.icons.filled.Tune
-import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -102,6 +102,18 @@ private val groups = listOf(
         )
     ),
     FeatureGroup(
+        name = "Monitoring",
+        tagline = "API success rate & latency",
+        features = listOf(
+            FeatureEntry(
+                "API tracking",
+                "Auto interceptor, normalization, filtering, manual",
+                Icons.Filled.Api,
+                Route.ApiTracking
+            )
+        )
+    ),
+    FeatureGroup(
         name = "Engagement",
         tagline = "Ratings, updates, cross-promo",
         features = listOf(
@@ -146,18 +158,6 @@ private val groups = listOf(
                 "Fetch values, conditions, defaults",
                 Icons.Filled.Tune,
                 Route.RemoteConfig
-            )
-        )
-    ),
-    FeatureGroup(
-        name = "Distribution",
-        tagline = "Reach users with push",
-        features = listOf(
-            FeatureEntry(
-                "Push notifications",
-                "FCM token, listener, manifest wiring",
-                Icons.Filled.NotificationsActive,
-                Route.Push
             )
         )
     )

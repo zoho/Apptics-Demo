@@ -18,7 +18,6 @@ composeCompiler = "1.5.1"
 activityCompose = "1.9.2"
 lifecycleViewmodelCompose = "2.8.5"
 navigationCompose = "2.8.0"
-firebaseMessaging = "24.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,7 +31,6 @@ apptics-plugin = { module = "com.zoho.apptics:apptics-plugin", version.ref = "ap
 apptics-ratings = { module = "com.zoho.apptics:apptics-ratings" }
 apptics-rc = { module = "com.zoho.apptics:apptics-rc" }
 apptics-crosspromo = { module = "com.zoho.apptics:apptics-crosspromo" }
-apptics-pns = { module = "com.zoho.apptics:apptics-pns" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -52,7 +50,6 @@ androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
-firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

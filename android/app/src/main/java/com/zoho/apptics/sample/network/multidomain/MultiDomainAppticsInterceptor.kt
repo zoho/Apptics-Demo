@@ -5,11 +5,18 @@ import okhttp3.Interceptor
 import okhttp3.Response
 
 /**
- * OkHttp interceptor that times each request and reports it to Apptics' API
- * tracking module. Each (url, method) pair maps to a numeric tracking ID
- * configured on the Apptics console — see [TrackIdHandler].
+ * DEPRECATED — kept only as a backward-compatibility example.
  *
- * Docs: https://www.zoho.com/apptics/resources/SDK/android-api_tracking.html
+ * This shows the *old* API-tracking flow: each (url, method) pair was mapped to a
+ * numeric tracking ID registered on the Apptics web console (see [TrackIdHandler]) and
+ * tracked via the deprecated `startTrackApi(apiId: Long, method)` overload.
+ *
+ * Prefer the modern approach instead: install [com.zoho.apptics.analytics.AppticsApiTrackingInterceptor]
+ * (no-arg) on your OkHttpClient — see [com.zoho.apptics.sample.network.RetrofitClient]. It tracks every
+ * request automatically with no console registration, and regional domains can be merged with
+ * `AppticsApiTracker.configure { groupDomains("api.myapp.*") }` instead of a per-URL ID map.
+ *
+ * Docs: see refer/api-tracking.md
  */
 class MultiDomainAppticsInterceptor : Interceptor {
 
@@ -19,10 +26,11 @@ class MultiDomainAppticsInterceptor : Interceptor {
         return if (appticsAPITrackId == 0L) {
             chain.proceed(request)
         } else {
-            // startTrackApi opens a timing window keyed by the tracking ID and
-            // returns a per-call trackID; endTrackApi closes it with the
-            // response code so latency + status appear in the Apptics console.
-            // Docs: https://www.zoho.com/apptics/resources/SDK/android-api_tracking.html
+            // Deprecated apiId-based flow: startTrackApi opens a timing window keyed by
+            // the console tracking ID and returns a per-call trackID; endTrackApi closes
+            // it with the response code. New integrations should use the URL-based
+            // startTrackApi(url, method) overload instead (see ApiTrackingScreen).
+            @Suppress("DEPRECATION")
             val trackID = AppticsApiTracker.startTrackApi(appticsAPITrackId, request.method)
             val response = chain.proceed(request)
             AppticsApiTracker.endTrackApi(trackID, response.code)

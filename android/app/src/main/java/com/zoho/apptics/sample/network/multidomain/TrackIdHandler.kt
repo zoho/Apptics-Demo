@@ -2,6 +2,16 @@ package com.zoho.apptics.sample.network.multidomain
 
 import okhttp3.Request
 
+/**
+ * DEPRECATED — backward-compatibility example only.
+ *
+ * Maps each (domain, url) to a numeric tracking ID that used to be registered on the
+ * Apptics web console. The modern SDK needs none of this: install
+ * AppticsApiTrackingInterceptor and, if you have regional domains, merge them with
+ * `AppticsApiTracker.configure { groupDomains("api.myapp.*") }`.
+ *
+ * Docs: see refer/api-tracking.md
+ */
 object TrackIdHandler {
 
     // Replace your Apptics Tracking ID

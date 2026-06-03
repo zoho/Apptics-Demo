@@ -11,5 +11,5 @@ sealed class Route(val path: String) {
     data object Ratings : Route("ratings")
     data object Updates : Route("updates")
     data object CrossPromo : Route("cross-promo")
-    data object Push : Route("push")
+    data object ApiTracking : Route("api-tracking")
 }

@@ -6,12 +6,13 @@ copy-pasteable code snippet so you can drop the same call into your own project.
 
 - **Package:** `com.zoho.apptics.sample`
 - **Apptics BOM:** `0.3.16` · **Apptics Gradle plugin:** `0.2.6-beta`
-- **minSdk:** 24 · **targetSdk / compileSdk:** 34 · **Kotlin:** 1.9.0
+- **minSdk:** 24 ·
 
 ---
 
 ## Contents
 
+- [Screenshots](#screenshots)
 - [Features showcased](#features-showcased)
 - [Prerequisites](#prerequisites)
 - [Setup & Configuration Guide](#setup--configuration-guide)
@@ -25,11 +26,21 @@ copy-pasteable code snippet so you can drop the same call into your own project.
   [Cross-Promotion](#cross-promotion) ·
   [In-App Feedback](#in-app-feedback) ·
   [Remote Config](#remote-config) ·
-  [API / Network Monitoring](#api--network-monitoring)
+  [API Tracking](#api-tracking)
 - [Project structure](#project-structure)
-- [Push notifications](#push-notifications-optional)
 - [Troubleshooting & notes](#troubleshooting--notes)
 - [Learn more](#learn-more)
+
+---
+
+## Screenshots
+
+| | | |
+|:--:|:--:|:--:|
+| <img src="docs/screenshots/home.png" width="240"><br>**Home** | <img src="docs/screenshots/identify-user.png" width="240"><br>**Identify User** | <img src="docs/screenshots/analytics.png" width="240"><br>**Analytics** |
+| <img src="docs/screenshots/crash.png" width="240"><br>**Crash Tracking** | <img src="docs/screenshots/logging.png" width="240"><br>**Remote Logging** | <img src="docs/screenshots/api-tracking.png" width="240"><br>**API Tracking** |
+| <img src="docs/screenshots/ratings.png" width="240"><br>**In-App Ratings** | <img src="docs/screenshots/updates.png" width="240"><br>**In-App Updates** | <img src="docs/screenshots/cross-promo.png" width="240"><br>**Cross-Promotion** |
+| <img src="docs/screenshots/feedback.png" width="240"><br>**In-App Feedback** | <img src="docs/screenshots/remote-config.png" width="240"><br>**Remote Config** | |
 
 ---
 
@@ -46,15 +57,13 @@ copy-pasteable code snippet so you can drop the same call into your own project.
 | Engagement | Cross-promotion | cross-promo gallery |
 | Feedback | In-app feedback | feedback UI, bug report, shake-to-send |
 | Configuration | Remote config | fetch values, conditions, defaults |
-| Diagnostics | API / network monitoring | `AppticsApiTrackingInterceptor`, `AppticsApiTracker` |
-| Distribution | Push notifications | FCM token, listener, manifest wiring |
+| Monitoring | API tracking | `AppticsApiTrackingInterceptor`, `AppticsApiTracker.configure`, manual `startTrackApi`/`endTrackApi` |
 
 ---
 
 ## Prerequisites
 
-- **Android Studio** (Hedgehog or newer recommended)
-- **JDK 8+**
+- **Android Studio**
 - An **Apptics account** and a registered app on the [Apptics console](https://www.zoho.com/apptics/).
   The console is where you configure rating criteria, target update versions, remote-config values, etc.
 
@@ -89,23 +98,8 @@ native-sdk-sample/
 ```
 
 **Where to get it:** Apptics console → your app → **Settings → SDK Integration** → download
-`apptics-config.json`. Replace the sample file in this repo with yours:
+`apptics-config.json`.
 
-```json
-{
-  "zak": "<your-app-zak-key>",
-  "bundleid": "com.zoho.apptics.sample",
-  "serviceurl": "https://sdk-apptics.zoho.in",
-  "syncinterval": 60
-}
-```
-
-| Key | What to put |
-|-----|-------------|
-| `zak` | Your app's key, copied from the Apptics console. |
-| `bundleid` | **Must match** `applicationId` in `app/build.gradle.kts` (here `com.zoho.apptics.sample`). |
-| `serviceurl` | The data-center URL for your account — `.com`, `.in`, `.eu`, etc. |
-| `syncinterval` | Seconds between background syncs (e.g. `60`). |
 
 That's the only file you need to touch — the Gradle plugin reads it at build time and
 `Apptics.init(this)` in `MyApp.kt` boots the SDK at launch. (See **How the SDK is wired** below if
@@ -263,6 +257,7 @@ val info = AppticsUser.getCurrentUserInfo()
 | `getCurrentUserInfo()` | Returns the user currently attached to the device. **Worker thread only** (blocking DB read). |
 
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/android-users.html>
+📖 Full guide: [refer/users.md](refer/users.md)
 
 ---
 
@@ -307,6 +302,7 @@ AppticsAnalytics.showReviewTrackingSettingsPopup(activity, showOnlyOnce = true)
 | `AppticsAnalytics.showReviewTrackingSettingsPopup(activity, showOnlyOnce)` | Shows a consent dialog to review tracking preferences. `showOnlyOnce = true` prevents it from reappearing once acknowledged. |
 
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/android-in_app_event.html> · [Consent](https://www.zoho.com/apptics/resources/SDK/android-consent.html)
+📖 Full guide: [refer/analytics.md](refer/analytics.md)
 
 ---
 
@@ -314,14 +310,13 @@ AppticsAnalytics.showReviewTrackingSettingsPopup(activity, showOnlyOnce = true)
 
 Apptics captures **fatal crashes and ANRs automatically** once the SDK is initialized — stack traces
 appear in your dashboard on the next session. You can also record **non-fatal** (caught) exceptions
-you still want to track, and forward **hybrid** JS/Flutter stack traces. Demo screen:
+you still want to track. Demo screen:
 ([`CrashScreen.kt`](app/src/main/java/com/zoho/apptics/sample/ui/features/crash/CrashScreen.kt)).
 
 ### API
 
 ```kotlin
 import com.zoho.apptics.crash.AppticsNonFatals
-import com.zoho.apptics.crash.AppticsCrashTracker
 
 // Non-fatal: report a caught throwable you handled but still want to surface.
 try {
@@ -332,23 +327,15 @@ try {
 
 // Fatal: uncaught exceptions are picked up automatically — just let them propagate.
 throw NullPointerException("forced crash")
-
-// Hybrid apps: forward JS / Flutter stack traces so they show up alongside native crashes.
-AppticsCrashTracker.recordJsCrash(name, stackTrace)
-AppticsCrashTracker.recordFlutterCrash(name, stackTrace)
 ```
 
 | Method | What it does |
 |--------|--------------|
 | _(automatic)_ | Fatal crashes and ANRs are captured without any code once `Apptics.init()` has run. |
 | `AppticsNonFatals.recordException(throwable)` | Records a caught throwable as a non-fatal for diagnostics. |
-| `AppticsCrashTracker.recordJsCrash(name, stackTrace)` | Forwards a JavaScript stack trace (React Native / Cordova) into crash reporting. |
-| `AppticsCrashTracker.recordFlutterCrash(name, stackTrace)` | Forwards a Dart/Flutter stack trace into crash reporting. |
-
-> The hybrid helpers may not exist on older SDK versions — guard the calls with `runCatching { … }`
-> as the sample does.
 
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/android-crashreporting.html>
+📖 Full guide: [refer/crash-tracking.md](refer/crash-tracking.md)
 
 ---
 
@@ -387,6 +374,7 @@ lifecycleScope.launch { AppticsLogger.flushLogs() }
 > The sample calls `AppticsLogger.enable()` in [`MyApp.onCreate()`](app/src/main/java/com/zoho/apptics/sample/MyApp.kt) so logging is on from launch.
 
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/android-remote_logger.html>
+📖 Full guide: [refer/remote-logging.md](refer/remote-logging.md)
 
 ---
 
@@ -428,6 +416,7 @@ AppticsInAppRatings.openStore(activity)
 | `openStore(activity)` | Opens your app's Play Store page directly. |
 
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/android-in_app_rating.html>
+📖 Full guide: [refer/in-app-ratings.md](refer/in-app-ratings.md)
 
 ---
 
@@ -465,29 +454,7 @@ AppticsInAppUpdates.installFlexibleUpdate()
 > `Dispatchers.IO`) — it makes a blocking network call.
 
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/android-in_app_update.html>
-
----
-
-## Cross-Promotion
-
-Show a curated gallery of other apps from your organization. The cards, badges, and images are
-configured per-app on the Apptics console; the SDK just launches the gallery. Demo screen:
-([`CrossPromoScreen.kt`](app/src/main/java/com/zoho/apptics/sample/ui/features/crosspromo/CrossPromoScreen.kt)).
-
-### API
-
-```kotlin
-import com.zoho.apptics.crosspromotion.AppticsCrossPromotion
-
-// Launch the Apptics-owned cross-promotion gallery Activity.
-AppticsCrossPromotion.startActivity(activity)
-```
-
-| Method | What it does |
-|--------|--------------|
-| `startActivity(activity)` | Opens the cross-promotion gallery. Contents come from the Apptics console. |
-
-📖 Docs: <https://www.zoho.com/apptics/resources/SDK/android-cross_promotion.html>
+📖 Full guide: [refer/in-app-updates.md](refer/in-app-updates.md)
 
 ---
 
@@ -526,6 +493,7 @@ if (AppticsFeedback.isShakeForFeedbackEnabled()) {
 | `isShakeForFeedbackEnabled()` | Returns whether shake-to-feedback is currently on. |
 
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/android-in_app_feedback.html>
+📖 Full guide: [refer/in-app-feedback.md](refer/in-app-feedback.md)
 
 ---
 
@@ -559,50 +527,72 @@ AppticsRemoteConfig.fetchValue("welcome_message") { value ->
 | `fetchValue(paramName, onComplete)` | Fetches a console-configured value by key. Serves the cached value first, then refreshes; `onComplete(value)` fires on the main thread with the final value (or `null`). |
 
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/android-remote_configuration.html>
+📖 Full guide: [refer/remote-config.md](refer/remote-config.md)
 
 ---
 
-## API / Network Monitoring
+## API Tracking
 
-Track the latency and status of your API calls so they show up in the Apptics console. Each endpoint
-is identified by a numeric **tracking ID** you configure on the console. The sample wires this through
-OkHttp interceptors in the [`network/`](app/src/main/java/com/zoho/apptics/sample/network) package, in
-two flavours:
+Measure the success rate and response time of your network calls. Tracking is now **fully automatic** —
+add one interceptor and every OkHttp request is tracked, with **no** web-console registration, `@TrackApiWith`
+annotations, or numeric `apiId`. Dynamic path segments (numeric IDs, UUIDs, JWTs) are normalized to `*`, so
+`/users/123` and `/users/456` are grouped as a single `/users/*` endpoint. Demo screen:
+([`ApiTrackingScreen.kt`](app/src/main/java/com/zoho/apptics/sample/ui/features/apitracking/ApiTrackingScreen.kt)).
 
-**(A) Drop-in interceptor** — add `AppticsApiTrackingInterceptor()` to your OkHttp client and Apptics
-tracks every configured URL automatically (see [`RetrofitClient.kt`](app/src/main/java/com/zoho/apptics/sample/network/RetrofitClient.kt)):
+### Automatic tracking
+
+Add `AppticsApiTrackingInterceptor` to your `OkHttpClient` — that's all (see
+[`RetrofitClient.kt`](app/src/main/java/com/zoho/apptics/sample/network/RetrofitClient.kt)):
 
 ```kotlin
 import com.zoho.apptics.analytics.AppticsApiTrackingInterceptor
 
-OkHttpClient.Builder()
+val client = OkHttpClient.Builder()
     .addInterceptor(AppticsApiTrackingInterceptor())
     .build()
 ```
 
-**(B) Manual / multi-domain** — when you want explicit control, map each URL to its console tracking ID
-and open/close the timing window yourself (see [`MultiDomainAppticsInterceptor.kt`](app/src/main/java/com/zoho/apptics/sample/network/multidomain/MultiDomainAppticsInterceptor.kt)
-and [`TrackIdHandler.kt`](app/src/main/java/com/zoho/apptics/sample/network/multidomain/TrackIdHandler.kt)):
+### Configuring what's tracked
+
+`AppticsApiTracker.configure {}` (called once at startup — see
+[`MyApp.onCreate()`](app/src/main/java/com/zoho/apptics/sample/MyApp.kt)) controls filtering and
+normalization. Each call replaces the previous config entirely.
 
 ```kotlin
 import com.zoho.apptics.analytics.AppticsApiTracker
 
-// trackId comes from the Apptics console (your TrackIdHandler url → id map).
-val trackId = AppticsApiTracker.startTrackApi(consoleTrackId, request.method)
-val response = chain.proceed(request)
-AppticsApiTracker.endTrackApi(trackId, response.code)
+AppticsApiTracker.configure {
+    allowOnlyDomains("api.yourapp.com", "api.yourapp.in") // or ignoreDomains(...) / TLD filters
+    groupDomains("api.yourapp.*")                         // merge regional domains
+    ignoreEndpoint("/health", "/internal/**")             // skip noise endpoints
+    addPattern("/v2/catalog/{categoryId}/items/{itemId}") // explicit pattern beats auto-detection
+    preserveSegments("v1", "v2")                          // never normalize these to *
+}
 ```
+
+### Manual tracking (non-OkHttp clients)
+
+```kotlin
+val trackId = AppticsApiTracker.startTrackApi(url, "GET")
+// ... make your network call ...
+AppticsApiTracker.endTrackApi(trackId, responseCode, responseMessage)
+```
+
+`startTrackApi` returns `-1` if the URL is filtered out; `endTrackApi` is a no-op on `-1`, so no guard code is needed.
 
 | Method | What it does |
 |--------|--------------|
-| `AppticsApiTrackingInterceptor()` | OkHttp interceptor that auto-tracks every configured URL. |
-| `AppticsApiTracker.startTrackApi(trackId, method)` | Opens a timing window for one call; returns a per-call track ID. |
-| `AppticsApiTracker.endTrackApi(trackId, responseCode)` | Closes the window with the HTTP status so latency + status reach the console. |
+| `AppticsApiTrackingInterceptor()` | OkHttp interceptor that auto-tracks every request. |
+| `AppticsApiTracker.configure { … }` | Sets domain/endpoint filtering and path normalization. |
+| `startTrackApi(url, method)` | Manually opens a timing window; returns a per-call track ID (`-1` = filtered). |
+| `endTrackApi(trackId, code, message)` | Closes the window with the HTTP status + message. |
 
-> Tracking IDs are issued per endpoint on the console (**Developer → API**). Replace the placeholder
-> IDs in `TrackIdHandler.kt` with your own.
+> **Migration:** the `@TrackApiWith` annotation and `startTrackApi(apiId: Long, …)` are deprecated but
+> still work. The [`network/multidomain/`](app/src/main/java/com/zoho/apptics/sample/network/multidomain)
+> package is kept only as a backward-compatibility example.
 
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/android-api_tracking.html>
+📖 Full guide: [refer/api-tracking.md](refer/api-tracking.md)
 
 ---
 
@@ -620,54 +610,9 @@ app/src/main/java/com/zoho/apptics/sample/
 │       ├── ratings/             # In-app ratings demo
 │       ├── updates/             # In-app updates demo
 │       ├── analytics/  crash/  logging/  feedback/
-│       ├── remoteconfig/  crosspromo/  userid/  push/
+│       ├── remoteconfig/  crosspromo/  userid/
 └── network/                     # Retrofit clients (network-monitoring demos)
 ```
-
----
-
-## Push notifications (optional)
-
-Send notifications to engage users even when the app is closed. Setup has two sides:
-
-**(A) In this app** — push is **disabled by default** because it needs a Firebase project. To enable it:
-
-1. Add your `google-services.json` to `app/`.
-2. Uncomment `apptics-pns` + `firebase-messaging` in `app/build.gradle.kts` and add the
-   `com.google.gms.google-services` plugin.
-3. Uncomment the `SampleFcmService` `<service>` block in `AndroidManifest.xml`.
-
-**(B) On the Apptics console** — one-time setup: get the **FCM private key (JSON)** from the Firebase
-console and upload it under your app's package name. Then go to **Push Notifications → Create New
-Notification** and build a campaign in five steps:
-
-1. **Schedule** — Immediate, Scheduled, or Recurring.
-2. **Audience** — pick user segments (and optionally an event to track conversions).
-3. **Message** — title, body, up to 5 images, optional carousel/countdown, and a deep-link destination.
-4. **Extras** — sound, custom JSON payload, app badge, and Android notification channel / icon / color.
-5. **Buttons** — up to 3 action buttons.
-
-Preview it, send a **test** to device tokens or emails, then **Publish** (or save as draft). Delivery
-and open/conversion stats appear on the dashboard afterwards.
-
----
-
-## Troubleshooting & notes
-
-- **Build fails on `appticsDebugAPIInjection` / JavaPoet error.** `app/build.gradle.kts` sets
-  `generateApiValues.put("default", false)` on purpose: the plugin turns each console API URL into a
-  Java field name, and a URL with characters that aren't valid Java identifiers (e.g.
-  `https://catfact.ninja/fact`) makes code generation fail. Flip it back to `true` only after cleaning
-  up the network-monitoring URL list on the console.
-- **In-app update / feedback dialog doesn't show.** Those dialogs need an **`AppCompatActivity`** host.
-  `MainActivity` already extends it — keep that if you copy the screens into your own app.
-- **Push notifications do nothing.** Push is disabled until you add a Firebase project — see
-  [Push notifications](#push-notifications-optional).
-- **Don't call these on the main thread.** `AppticsInAppUpdates.coldCheckForUpdate()` and
-  `AppticsUser.getCurrentUserInfo()` are `@WorkerThread` (blocking); `AppticsLogger.flushLogs()` is a
-  `suspend` function — call it from a coroutine.
-- **Dependency resolution fails.** Make sure the Zoho Maven repo (`https://maven.zohodl.com/`) is in
-  both `settings.gradle.kts` and the root `build.gradle.kts` `buildscript` block.
 
 ---
 

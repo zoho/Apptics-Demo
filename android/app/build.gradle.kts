@@ -89,10 +89,6 @@ dependencies {
     implementation(libs.apptics.logger)
     implementation(libs.apptics.rc)
     implementation(libs.apptics.crosspromo)
-    // apptics-pns + firebase-messaging require a Firebase project (google-services.json + plugin).
-    // Add them — plus `id("com.google.gms.google-services")` — once you've wired up Firebase.
-    // implementation(libs.apptics.pns)
-    // implementation(libs.firebase.messaging)
 
     // Network Dependency
     implementation(libs.retrofit)
