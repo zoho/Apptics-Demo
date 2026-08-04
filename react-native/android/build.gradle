@@ -1,0 +1,32 @@
+buildscript {
+    ext {
+        buildToolsVersion = "36.0.0"
+        minSdkVersion = 24
+        compileSdkVersion = 36
+        targetSdkVersion = 36
+        ndkVersion = "27.1.12297006"
+        kotlinVersion = "2.1.20"
+    }
+    repositories {
+        google()
+        mavenCentral()
+        // Apptics artifacts (SDK modules + Gradle plugin) are hosted by Zoho.
+        maven { url "https://maven.zohodl.com/" }
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle")
+        classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+        // Reads app/apptics-config.json, registers this build's version with the
+        // Apptics server and injects the credentials into the app at build time.
+        classpath("com.zoho.apptics:apptics-plugin:0.2.6-beta")
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url "https://maven.zohodl.com/" }
+    }
+}
+
+apply plugin: "com.facebook.react.rootproject"

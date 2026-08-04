@@ -1,0 +1,62 @@
+# The Apptics pods are published to the CocoaPods CDN (the default source), so
+# nothing extra is needed here. Zoho also mirrors them in its own spec repo; if
+# a version you need is missing from the CDN, add BOTH sources — declaring one
+# source explicitly disables the implicit CDN default:
+#
+#   source 'https://github.com/zoho/Apptics.git'
+#   source 'https://cdn.cocoapods.org/'
+#
+# Note that having both makes CocoaPods warn about duplicate specifications for
+# every Apptics pod, since the same versions exist in each.
+
+# Resolve react_native_pods.rb with node to allow for hoisting
+require Pod::Executable.execute_command('node', ['-p',
+  'require.resolve(
+    "react-native/scripts/react_native_pods.rb",
+    {paths: [process.argv[1]]},
+  )', __dir__]).strip
+
+platform :ios, min_ios_version_supported
+prepare_react_native_project!
+
+linkage = ENV['USE_FRAMEWORKS']
+if linkage != nil
+  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
+  use_frameworks! :linkage => linkage.to_sym
+end
+
+target 'AppticsSample' do
+  config = use_native_modules!
+
+  # AppticsReactNative contains Swift sources and depends on Apptics-SDK, which
+  # ships without module maps. Swift cannot import such a pod when everything is
+  # built as static libraries, so ask CocoaPods to generate one for it. No
+  # version is given: the resolver takes it from AppticsReactNative.podspec.
+  pod 'Apptics-SDK', :modular_headers => true
+
+  # Apptics pre-build script. Mandatory: it registers this build's version with
+  # the Apptics server, writes the resolved app information into
+  # apptics-config.plist, and uploads dSYMs for the listed configurations so
+  # crash reports are symbolicated.
+  #
+  # It must run BEFORE 'Compile Sources', and 'Copy Bundle Resources' must come
+  # after it — CocoaPods places the phase correctly via :execution_position.
+  script_phase :name => 'Apptics pre build',
+               :script => 'sh "./Pods/Apptics-SDK/scripts/run" --upload-symbols-for-configurations="Release, Appstore"',
+               :execution_position => :before_compile
+
+  use_react_native!(
+    :path => config[:reactNativePath],
+    # An absolute path to your application root.
+    :app_path => "#{Pod::Config.instance.installation_root}/.."
+  )
+
+  post_install do |installer|
+    react_native_post_install(
+      installer,
+      config[:reactNativePath],
+      :mac_catalyst_enabled => false,
+      # :ccache_enabled => true
+    )
+  end
+end

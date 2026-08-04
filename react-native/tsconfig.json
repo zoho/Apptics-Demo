@@ -1,0 +1,10 @@
+{
+  "extends": "@react-native/typescript-config",
+  "compilerOptions": {
+    // The React Native base config pulls in Jest's global types. This sample
+    // ships without tests, so clear the list rather than depend on @types/jest.
+    "types": []
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["**/node_modules", "**/Pods"]
+}

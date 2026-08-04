@@ -1,0 +1,8 @@
+<resources>
+    <!-- Palette used by the Apptics native dialogs (see styles.xml). It mirrors
+         the JS theme in src/theme.ts so the SDK's UI matches the app's. -->
+    <color name="apptics_text">#141821</color>
+    <color name="apptics_secondary_text">#5F6675</color>
+    <color name="apptics_accent">#1565C0</color>
+    <color name="apptics_on_accent">#FFFFFF</color>
+</resources>
