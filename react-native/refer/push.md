@@ -138,19 +138,4 @@ The `AppticsMessaging` pod comes in through the library's podspec; no extra pod 
 - Notification events also feed the `AP_NOTIFICATION_*` defined events, so delivery and open rates
   appear in analytics without extra work.
 
----
-
-## Compared with the Flutter plugin
-
-| Flutter | React Native |
-|---|---|
-| `setOnMessageHandlerListener(fn)` — a top-level `@pragma('vm:entry-point')` background handler running in its own isolate | no background-isolate equivalent; handlers run in the single JS context and only fire once it is alive |
-| `AppticsPushNotification.initialize(onMessageReceived:, onNotificationClick:, onNotificationActionClick:)` | assign to the `AppticsPushModuleEmitter` slots |
-| `startService()` / `registerPushNotification()` on `AppticsFlutter.instance` | same, on `AppticsPushMessages` |
-| — | `setForegroundNotificationOptions(option)` (React Native only) |
-
-The practical difference: a notification that arrives while the app is
-terminated is handled by the OS and the native SDK, and your JS callback only
-runs after the user opens the app. Flutter can run Dart code at delivery time.
-
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/react-native-push-notifications.html>

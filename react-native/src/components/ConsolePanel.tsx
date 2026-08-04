@@ -13,19 +13,11 @@ import {Console, useConsoleEntries} from '../core/console';
 import {formatTime, LogEntry, LogLevel} from '../core/logEntry';
 import {theme} from '../theme';
 
-/**
- * A live, colour-coded, scrollable view of the shared Console.
- *
- * Shown at the bottom of every feature screen (via `FeatureScaffold`) so the
- * result of each SDK call is immediately visible. It auto-scrolls to the newest
- * entry and offers a clear button.
- */
 export function ConsolePanel({height = 220}: {height?: number}) {
   const entries = useConsoleEntries();
   const listRef = useRef<FlatList<LogEntry>>(null);
 
   useEffect(() => {
-    // Stick to the bottom whenever a new line is logged.
     if (entries.length > 0) {
       listRef.current?.scrollToEnd({animated: true});
     }
@@ -64,7 +56,6 @@ export function ConsolePanel({height = 220}: {height?: number}) {
           keyExtractor={item => String(item.id)}
           contentContainerStyle={styles.listContent}
           renderItem={({item}) => <LogLine entry={item} />}
-          // Auto-scroll stays correct even as rows of varying height mount.
           onContentSizeChange={() =>
             listRef.current?.scrollToEnd({animated: false})
           }

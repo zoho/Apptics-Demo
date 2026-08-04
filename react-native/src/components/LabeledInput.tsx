@@ -3,11 +3,6 @@ import {StyleSheet, Text, TextInput, View} from 'react-native';
 
 import {theme} from '../theme';
 
-/**
- * A plain labelled text field. Screens use it so you can feed real values (and
- * edge cases like an empty string) into the SDK calls instead of only firing
- * hard-coded ones.
- */
 export function LabeledInput({
   label,
   value,

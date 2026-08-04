@@ -3,11 +3,6 @@ import {StyleSheet, Text, View} from 'react-native';
 
 import {theme} from '../theme';
 
-/**
- * A titled card that groups related controls on a feature screen and carries a
- * short explanation of what the grouped APIs do. Keeps every screen visually
- * consistent and self-documenting.
- */
 export function SectionCard({
   title,
   subtitle,

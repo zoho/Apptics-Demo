@@ -39,12 +39,6 @@
 	<string></string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
-	<!--
-	  Fonts must be registered here to be usable. The vector-icons podspec only
-	  copies MaterialIcons.ttf into the bundle; without this key iOS never loads
-	  it and every icon renders as a blank box. Android needs no equivalent — it
-	  picks fonts up from assets automatically.
-	-->
 	<key>UIAppFonts</key>
 	<array>
 		<string>MaterialIcons.ttf</string>

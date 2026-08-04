@@ -132,8 +132,8 @@ export function CrashScreen() {
             'terminates. Reopen the app to confirm the report was sent.'
           }
           onConfirmed={() => {
-            // Thrown from a timer callback so it escapes React's error
-            // boundaries and reaches the global handler as a real fatal crash.
+            // Thrown outside any try/catch so the handler installed by
+            // initCrashTracker() reports it as a fatal crash.
             setTimeout(() => {
               throw new Error('Apptics sample: deliberate fatal crash');
             }, 0);

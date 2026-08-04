@@ -21,7 +21,6 @@ import {useScreenTracking} from '../core/useScreenTracking';
 export function UserScreen() {
   useScreenTracking('UserScreen');
 
-  // Editable so you can try valid IDs, empty values, etc. (edge cases).
   const [userId, setUserId] = useState('user@example.com');
   const [orgId, setOrgId] = useState('acme-corp');
 

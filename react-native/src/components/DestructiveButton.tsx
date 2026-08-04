@@ -5,11 +5,6 @@ import {Alert, Pressable, StyleSheet, Text, View} from 'react-native';
 import {Console} from '../core/console';
 import {theme} from '../theme';
 
-/**
- * A red button that asks for confirmation before running something the user
- * cannot undo — crashing the app, for instance. Used by the Crash screen so a
- * mistaken tap does not kill the session.
- */
 export function DestructiveButton({
   label,
   confirmTitle,

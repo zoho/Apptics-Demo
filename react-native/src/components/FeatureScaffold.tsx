@@ -11,14 +11,6 @@ import {
 import {theme} from '../theme';
 import {ConsolePanel} from './ConsolePanel';
 
-/**
- * Shared layout for every feature screen: a scrollable body of controls and a
- * persistent `ConsolePanel` pinned to the bottom so the result of each action
- * is always in view.
- *
- * Centralizing the layout here means each feature screen only has to supply its
- * intro text and its list of `SectionCard`s.
- */
 export function FeatureScaffold({
   intro,
   children,

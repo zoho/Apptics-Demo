@@ -1,7 +1,3 @@
-/**
- * Every route in the app. Declared in one place so `navigation.navigate(...)`
- * is type-checked and the home grid can be driven by data.
- */
 export type RootStackParamList = {
   Home: undefined;
   Analytics: undefined;
@@ -19,21 +15,10 @@ export type RootStackParamList = {
 
 export type FeatureRoute = Exclude<keyof RootStackParamList, 'Home'>;
 
-/**
- * Descriptor for one Apptics module, used to build the home grid and to
- * register the stack screens. Keeping the list of features as data (rather
- * than hard-coded tiles) makes the home screen trivial and the set of demos
- * easy to extend.
- */
 export interface Feature {
   route: FeatureRoute;
-  /** Title shown on the tile and in the navigation bar. */
   title: string;
   subtitle: string;
-  /**
-   * Material Icons name. These deliberately match the `Icons.*` constants the
-   * Flutter sample uses for the same features, so the two demos read the same.
-   */
   icon: string;
 }
 

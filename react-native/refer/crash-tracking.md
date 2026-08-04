@@ -128,26 +128,4 @@ For non-fatals you can shorten the wait with `Apptics.flush()`.
 - iOS symbolication depends on the `Apptics pre build` script phase uploading dSYMs — see the
   Podfile and the README.
 
----
-
-## Compared with the Flutter plugin
-
-The React Native surface is considerably smaller. The Flutter plugin's crash
-module is a dedicated `AppticsCrashTracker` singleton; here the same concerns
-live on the `Apptics` namespace.
-
-| Flutter | React Native |
-|---|---|
-| `autoCrashTracker()` | `initCrashTracker()` |
-| `sendNonFatalException(e, stack)` / `sendException(e, stack, reason:, isFatal:)` | `reportError(error)` — no reason or fatal flag |
-| `setCrashCustomProperty({...})` | same |
-| `setAttemptInstantSync(bool)` | not exposed — use `flush()` |
-| `getLastCrashInfo()` | not exposed |
-| `showLastSessionCrashedPopup()` | same (Android only) |
-| `enableANR()` / `disableANR()` / `isANREnabled()` / `makeANR()` | **no ANR API at all** |
-| — | `enableDevTesting()` (React Native only) |
-
-ANR detection still runs in the underlying Android SDK; it just cannot be
-configured or triggered from JavaScript.
-
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/>

@@ -87,24 +87,4 @@ Then **Save**. Configure Android and iOS separately.
 - Ask after a win — an order placed, a file exported, a level cleared — not on launch.
 - Because you cannot know whether the sheet appeared, never gate app behaviour on it.
 
----
-
-## Compared with the Flutter plugin
-
-This is the largest gap between the two SDKs. Flutter drives the prompt itself
-and exposes the whole criteria mechanism; React Native only asks the platform
-to show its own review sheet.
-
-| Flutter | React Native |
-|---|---|
-| `checkForRatingPop(context, isFeedbackEnabled:)` | `shouldShowPlayCoreAlertForAndroid()` / `showAppStoreRatings()` |
-| `openPlayStore()` | not exposed |
-| `getCriteriaId()` / `sentStats(id, action)` / `updateRatingShown()` | not exposed |
-| `isAppticsFeedbackModuleAvailable()` | not exposed |
-| `setMaxTimesToShowPopup(n)`, `setDaysBeforeShowingPopupAgain(n)`, `setShowStoreAlertOnFulFillingCriteria(b)`, `setDisableAutoPromptOnFulFillingCriteria(b)` | not exposed — configure on the console instead |
-| — | `willDisplayReviewPrompt` callback (React Native only) |
-
-So a custom rating UI is not buildable from JavaScript here: without
-`getCriteriaId`/`sentStats` you cannot report what the user chose.
-
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/>

@@ -33,8 +33,6 @@ initApptics();
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-// Feature route → screen component. Keeping it as a lookup means the navigator
-// below can be generated from the same FEATURES list that builds the home grid.
 const FEATURE_SCREENS: Record<FeatureRoute, React.ComponentType> = {
   Analytics: AnalyticsScreen,
   User: UserScreen,

@@ -129,21 +129,4 @@ instead — see [remote-logging.md](remote-logging.md).
 - Call `Apptics.setUser` before submitting where you can — an identified report is far easier to
   follow up on.
 
----
-
-## Compared with the Flutter plugin
-
-| Flutter | React Native |
-|---|---|
-| `openFeedback()` / `reportBug()` | same |
-| `enable`/`disableShakeForFeedback()` | same |
-| `isShakeForFeedbackEnabled()` | not exposed |
-| `enable`/`disableAnonymousUserAlert()` | `enable`/`disableAnonymousAlert()` |
-| `isAnonymousUserAlertEnabled()` | not exposed |
-| `setEmailId(email)` | not exposed — pass `guestMailId` per call |
-| `sendFeedback(msg, logs, diagnostics, guestMailId:)` | plus `forceToAnonymous` and `attachments` |
-| `sendBugReport(...)` | not exposed — only `sendFeedback` |
-| `writeLog(msg, Log.verbose\|debug\|info\|warn\|error)` | `writeLog(LogType.Debug\|Info\|Warn\|Error, msg)` — **no verbose**, arguments reversed |
-| — | `addLogFile(path)` (React Native only) |
-
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/>

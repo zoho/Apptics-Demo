@@ -3,16 +3,11 @@ import {Apptics} from '@zoho_apptics/apptics-react-native';
 import {useCallback} from 'react';
 
 /**
- * Reports a screen view to Apptics for as long as the screen is focused.
+ * Pairs `Apptics.screenAttached` with `Apptics.screenDetached` so screen views
+ * and dwell time are reported for as long as the screen is focused.
  *
- * This is the recommended screen-tracking pattern for React Navigation:
- * `screenAttached` when the screen gains focus and `screenDetached` when it
- * loses it — so a screen you navigate *away* from stops accruing dwell time
- * even though its component stays mounted in the stack.
- *
- * Automatic native screen tracking is switched off in `appticsBootstrap.ts`
- * (`Apptics.init(false)`) precisely so this manual pairing is the single source
- * of truth.
+ * Automatic native screen tracking is switched off via `Apptics.init(false)`,
+ * so this pairing is the only source of screen stats.
  */
 export function useScreenTracking(screenName: string) {
   useFocusEffect(

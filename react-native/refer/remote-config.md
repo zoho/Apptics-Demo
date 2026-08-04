@@ -96,14 +96,4 @@ appears there.
 - Read once and hold the result in state for the lifetime of a screen rather than calling on every
   render.
 
----
-
-## Compared with the Flutter plugin
-
-| Flutter | React Native |
-|---|---|
-| `getStringValue(key, coldFetch:, fallbackWithOfflineValue:)` — named, optional | `getStringValue(key, coldFetch, fallback)` — positional, **all required** |
-| `setCustomConditionValue(k, v)` | `setCustomCondition(k, v)` |
-| `hardReset()` | not exposed — no way to clear the cache from JS |
-
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/>

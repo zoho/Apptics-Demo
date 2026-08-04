@@ -102,15 +102,4 @@ common reason "the call succeeded but no dialog showed".
 - `disableUpdatePopupIfNotInstalledFromPlayStore(true)` is worth setting if you distribute APKs
   outside Play — the Play in-app update flow cannot service those installs.
 
----
-
-## Compared with the Flutter plugin
-
-| Flutter | React Native |
-|---|---|
-| `checkAndUpdateAlert(context)` — needs a BuildContext | `showVersionAlertPopup()` — no context |
-| `getInAppUpdateData()` | `checkForUpdate()` — same payload |
-| — | `sendUpdateStat(id, stat)` (React Native only) |
-| — | `disableUpdatePopupIfNotInstalledFromPlayStore(b)` (React Native only) |
-
 📖 Docs: <https://www.zoho.com/apptics/resources/user-guide/in-app-updates.html>

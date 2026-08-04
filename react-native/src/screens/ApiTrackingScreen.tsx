@@ -91,8 +91,7 @@ export function ApiTrackingScreen() {
           action={async () => {
             const res = await AppticsApiTracker.trackedFetch(BAD_URL);
             return `HTTP ${res.status}`;
-            // The thrown network error is logged by ActionButton's catch, and
-            // the tracker records the failed call with its message.
+            // The tracker records the failed call with its error message.
           }}
         />
         <ActionButton

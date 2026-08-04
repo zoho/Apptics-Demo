@@ -3,8 +3,8 @@ optional properties, track which screens users visit, and flush the upload queue
 event has a **name** and a **group**; properties are sent as a plain object for richer reporting on
 the dashboard.
 
-Everything lives on the `Apptics` namespace. Unlike the Flutter plugin, these calls are
-fire-and-forget — they return `void`, not a Promise — because the native side queues the work.
+Everything lives on the `Apptics` namespace. Most of these calls are fire-and-forget — they return
+`void`, not a Promise — because the native side queues the work.
 See the sample usage in `src/screens/AnalyticsScreen.tsx`.
 
 ---
@@ -153,15 +153,5 @@ Apptics.flush();
 - Property values must be `string`, `number` or `boolean`.
 - Analytics is gated by the tracking state — see [privacy.md](privacy.md). Under
   `OnlyCrashTracking*` or `NoTracking`, events are not collected at all.
-
----
-
-## Compared with the Flutter plugin
-
-| Flutter | React Native |
-|---|---|
-| `addEvent(event, group, {properties})` — properties optional | `addEvent(name, group, properties)` — **required**, pass `{}` |
-| `setDefaultLanguage(lang)` | not exposed |
-| returns `Future<void>` — awaitable | returns `void` — fire-and-forget |
 
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/>

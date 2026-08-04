@@ -10,16 +10,9 @@ import {theme} from '../theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
-// Pad to an even count so the last row lines up with the rest of the grid.
 const GRID: (Feature | null)[] =
   FEATURES.length % 2 === 0 ? FEATURES : [...FEATURES, null];
 
-/**
- * Landing screen: a grid of every Apptics module the sample demonstrates.
- *
- * Like every other screen it reports itself with `useScreenTracking`, so
- * screen views and dwell time show up correctly in the Apptics console.
- */
 export function HomeScreen({navigation}: Props) {
   useScreenTracking('HomeScreen');
 
@@ -38,8 +31,6 @@ export function HomeScreen({navigation}: Props) {
               onPress={() => navigation.navigate(item.route)}
             />
           ) : (
-            // Keeps a trailing odd tile at half width instead of letting it
-            // stretch across the row.
             <View style={styles.tileSpacer} />
           )
         }

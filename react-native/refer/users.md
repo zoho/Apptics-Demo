@@ -103,16 +103,4 @@ If your app supports account switching, call `setUser` again with the new id on 
   crashes early in the session are attributed correctly.
 - Prefer a stable internal id over an email address if the user can change their email.
 
----
-
-## Compared with the Flutter plugin
-
-| Flutter | React Native |
-|---|---|
-| `AppticsUserPropertyBuilder()...build()` | a plain object |
-| `setUserWithProperty(id, groupId:, props:)` | `setUser(id, props)` / `setUserWithOrgId(id, orgId, props)` |
-| `removeUser(userId, groupId)` | not exposed — see *Logging out* above |
-| `getUserProperties()` | not exposed |
-| `isUserLoggedIn()` | same |
-
 📖 Docs: <https://www.zoho.com/apptics/resources/SDK/>
