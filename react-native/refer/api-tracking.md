@@ -113,18 +113,12 @@ AppticsApiTracker.excludedUrlPatterns.clear();
 `excludedUrlPatterns` is a plain `Set<string>`, so `add`, `delete`, `has` and `clear` all work.
 Matching is a simple substring test, not a glob or a regex.
 
-Good candidates: health checks, log/telemetry endpoints, long-poll connections, and anything with a
-secret in the query string.
-
 ---
 
 ## Notes
 
 - API tracking is *usage* data, so it obeys the tracking state — nothing is recorded under
   `OnlyCrashTracking*` or `NoTracking`. See [privacy.md](privacy.md).
-- URLs are recorded as-is. Exclude endpoints whose paths embed identifiers you would rather not
-  store.
 - Results appear under **API** on the Apptics console, grouped by endpoint with latency percentiles
   and error rates.
 
-📖 Docs: <https://www.zoho.com/apptics/resources/SDK/>

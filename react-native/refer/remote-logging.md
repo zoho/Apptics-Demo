@@ -1,6 +1,5 @@
 The remote logger streams application logs to Apptics in real time, so you can debug an issue on a
-device you do not have in your hand. It is separate from the feedback logs
-([feedback.md](feedback.md)), which are only uploaded when a user submits a report.
+device you do not have in your hand. 
 
 See the sample usage in `src/screens/RemoteLoggerScreen.tsx`.
 
@@ -46,8 +45,6 @@ APLogger.error('Payment failed');
 | `warn(...msgs)` | warning |
 | `error(...msgs)` | error |
 
-Every method is **variadic**. Extra arguments are stringified and appended to the line, so you can
-attach context without formatting it yourself:
 
 ```ts
 APLogger.log('Checkout started', ['cart', 'checkout'], {plan: 'Premium', seats: 25});
@@ -66,23 +63,3 @@ nothing is uploaded. Call `Apptics.enableDevTesting()` *before* logging if you w
 upload path from a debug build — the same switch used by crash tracking
 ([crash-tracking.md](crash-tracking.md)).
 
----
-
-## What gets captured
-
-Each line carries the file, method and line number of the call site, taken from a synthetic stack
-trace. These are **obfuscated** in the payload — Apptics shows them as stable identifiers rather
-than your source symbols.
-
----
-
-## Notes
-
-- Logging is a network cost. Enable it for the sessions you need it for, not for your whole user
-  base.
-- Do not log secrets, tokens, or personal data — remote logs are not covered by the PII rules that
-  govern the user id.
-- Logs appear under **Remote logs** on the Apptics console, filterable by level, app version and
-  device.
-
-📖 Docs: <https://www.zoho.com/apptics/resources/SDK/>

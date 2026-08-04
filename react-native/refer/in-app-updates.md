@@ -1,6 +1,4 @@
-In-app version alerts prompt users on an old build to update. The policy — which version to promote,
-how insistent to be, what the copy says — lives on the Apptics console, so you can change it without
-shipping anything.
+In-app version alerts prompt users on an old build to update.
 
 See the sample usage in `src/screens/InAppUpdateScreen.tsx`.
 
@@ -59,30 +57,6 @@ const data = await AppticsAppUpdate.checkForUpdate();
 
 ---
 
-## Report engagement from a custom prompt
-
-If you render your own UI, tell Apptics what happened so the console's update funnel stays accurate.
-
-```ts
-import {AppticsAppUpdate, UpdateStats} from '@zoho_apptics/apptics-react-native';
-
-AppticsAppUpdate.sendUpdateStat(updateId, UpdateStats.Impression);       // you showed it
-AppticsAppUpdate.sendUpdateStat(updateId, UpdateStats.UpdateClick);      // they tapped Update
-AppticsAppUpdate.sendUpdateStat(updateId, UpdateStats.RemindLaterClick); // they postponed
-AppticsAppUpdate.sendUpdateStat(updateId, UpdateStats.IgnoreClick);      // they dismissed for good
-```
-
-| `UpdateStats` | Wire value |
-|---|---|
-| `Impression` | `impression` |
-| `UpdateClick` | `download` |
-| `IgnoreClick` | `ignore` |
-| `RemindLaterClick` | `later` |
-
-The built-in alert reports these for you — only send them yourself when you replaced the UI.
-
----
-
 ## Console setup
 
 **Developer → In-app update** → select your app → **Configure**. Set the version to promote, the
@@ -99,7 +73,3 @@ common reason "the call succeeded but no dialog showed".
 - Where to call it matters more than how often: a launch or a home screen, not mid-task.
 - Force updates lock the user out of the app until they update. Reserve them for genuinely broken
   builds.
-- `disableUpdatePopupIfNotInstalledFromPlayStore(true)` is worth setting if you distribute APKs
-  outside Play — the Play in-app update flow cannot service those installs.
-
-📖 Docs: <https://www.zoho.com/apptics/resources/user-guide/in-app-updates.html>

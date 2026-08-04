@@ -107,5 +107,3 @@ async function onConsentChosen(allowAnalytics: boolean, allowCrash: boolean, all
 - Set the state **before** you start firing events, ideally right after `Apptics.init()`, so nothing
   is collected under an assumption the user has not agreed to.
 - Changing the state does not retroactively delete data already uploaded.
-
-📖 Docs: <https://www.zoho.com/apptics/resources/SDK/>

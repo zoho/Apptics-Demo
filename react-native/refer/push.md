@@ -135,7 +135,3 @@ The `AppticsMessaging` pod comes in through the library's podspec; no extra pod 
 
 - Because the handlers are plain assignable slots, keep them in one module. Assigning them from two
   places means the last one wins, silently.
-- Notification events also feed the `AP_NOTIFICATION_*` defined events, so delivery and open rates
-  appear in analytics without extra work.
-
-📖 Docs: <https://www.zoho.com/apptics/resources/SDK/react-native-push-notifications.html>

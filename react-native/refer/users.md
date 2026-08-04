@@ -94,13 +94,3 @@ Apptics.setTrackingState(TrackingState.UsageAndCrashTrackingWithoutPII);
 ```
 
 If your app supports account switching, call `setUser` again with the new id on the next login.
-
----
-
-## Notes
-
-- Call `setUser` as soon as the session is restored on launch, not only at the moment of login, so
-  crashes early in the session are attributed correctly.
-- Prefer a stable internal id over an email address if the user can change their email.
-
-📖 Docs: <https://www.zoho.com/apptics/resources/SDK/>

@@ -21,16 +21,12 @@ import {AppticsInAppRatings} from '@zoho_apptics/apptics-react-native';
 // Android — Google Play's in-app review sheet.
 AppticsInAppRatings.shouldShowPlayCoreAlertForAndroid();
 
-// iOS — StoreKit's rating prompt.
-AppticsInAppRatings.showAppStoreRatings();
 ```
 
 | Method | What it does |
 |--------|--------------|
 | `shouldShowPlayCoreAlertForAndroid()` | Requests the Play Core review sheet. No-op on iOS. |
-| `showAppStoreRatings()` | Requests the App Store rating prompt. |
 
-Neither method guarantees a prompt. Both are subject to two independent limits:
 
 1. **Apptics criteria** — the mode and thresholds you set on the console.
 2. **Platform quotas** — Google and Apple both cap how often a user can be asked, and silently
@@ -49,7 +45,8 @@ at startup:
 import {AppticsRateUsModuleEmitter} from '@zoho_apptics/apptics-react-native';
 
 AppticsRateUsModuleEmitter.willDisplayReviewPrompt = () => {
-  // Pause a video, stop a game loop, dismiss your own overlay.
+  // iOS — StoreKit's rating prompt.
+  AppticsInAppRatings.showAppStoreRatings();
 };
 ```
 
@@ -80,11 +77,3 @@ Then **Save**. Configure Android and iOS separately.
   TestFlight configurations.
 - Reset expectations between runs: the platform quota is per user/device, not per install.
 
----
-
-## Notes
-
-- Ask after a win — an order placed, a file exported, a level cleared — not on launch.
-- Because you cannot know whether the sheet appeared, never gate app behaviour on it.
-
-📖 Docs: <https://www.zoho.com/apptics/resources/SDK/>

@@ -3,17 +3,12 @@ optional properties, track which screens users visit, and flush the upload queue
 event has a **name** and a **group**; properties are sent as a plain object for richer reporting on
 the dashboard.
 
-Everything lives on the `Apptics` namespace. Most of these calls are fire-and-forget — they return
-`void`, not a Promise — because the native side queues the work.
-See the sample usage in `src/screens/AnalyticsScreen.tsx`.
 
 ---
 
 ## Start the SDK
 
-There is no `initialize(apiKey)` call. Credentials come from the native config files
-(`android/app/apptics-config.json`, `ios/apptics-config.plist`), so by the time JS runs the SDK is
-already configured. `init` starts the session/analytics engine.
+`init` starts the session/analytics engine.
 
 ```ts
 import {Apptics} from '@zoho_apptics/apptics-react-native';
@@ -97,10 +92,6 @@ Apptics.addEvent(
 Pair `screenAttached` (when the screen appears) with `screenDetached` (when it leaves) to measure
 screen views and dwell time. Both take the screen name as a string.
 
-With React Navigation the right hook is `useFocusEffect`, not `useEffect`: a screen you navigate
-*away* from stays mounted in the stack, so mount/unmount would keep it accruing dwell time. This
-sample wraps that in `src/core/useScreenTracking.ts`:
-
 ```ts
 import {useFocusEffect} from '@react-navigation/native';
 import {Apptics} from '@zoho_apptics/apptics-react-native';
@@ -153,5 +144,3 @@ Apptics.flush();
 - Property values must be `string`, `number` or `boolean`.
 - Analytics is gated by the tracking state — see [privacy.md](privacy.md). Under
   `OnlyCrashTracking*` or `NoTracking`, events are not collected at all.
-
-📖 Docs: <https://www.zoho.com/apptics/resources/SDK/>

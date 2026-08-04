@@ -36,8 +36,6 @@ AppticsFeedback.disableShakeForFeedback();
 | `enableShakeForFeedback()` | Turns the shake gesture on. |
 | `disableShakeForFeedback()` | Turns it off. |
 
-Worth disabling on screens where shaking is part of the app's own interaction — and note that in
-debug builds shaking also opens React Native's dev menu.
 
 ---
 
@@ -129,4 +127,3 @@ instead — see [remote-logging.md](remote-logging.md).
 - Call `Apptics.setUser` before submitting where you can — an identified report is far easier to
   follow up on.
 
-📖 Docs: <https://www.zoho.com/apptics/resources/SDK/>

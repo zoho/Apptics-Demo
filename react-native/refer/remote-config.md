@@ -93,7 +93,3 @@ appears there.
 ## Notes
 
 - Do not put secrets in remote config. It is configuration, not a secure store.
-- Read once and hold the result in state for the lifetime of a screen rather than calling on every
-  render.
-
-📖 Docs: <https://www.zoho.com/apptics/resources/SDK/>

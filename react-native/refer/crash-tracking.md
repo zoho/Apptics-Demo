@@ -128,4 +128,3 @@ For non-fatals you can shorten the wait with `Apptics.flush()`.
 - iOS symbolication depends on the `Apptics pre build` script phase uploading dSYMs — see the
   Podfile and the README.
 
-📖 Docs: <https://www.zoho.com/apptics/resources/SDK/>
