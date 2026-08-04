@@ -11,10 +11,12 @@ A runnable reference app for the [`@zoho_apptics/apptics-react-native`](https://
 
 | | | |
 |:--:|:--:|:--:|
-| <img src="docs/screenshots/android/home.png" width="240"><br>**Home** | <img src="docs/screenshots/android/identify-user.png" width="240"><br>**Identify User** | <img src="docs/screenshots/android/analytics.png" width="240"><br>**Analytics** |
-| <img src="docs/screenshots/android/privacy.png" width="240"><br>**Privacy & Consent** | <img src="docs/screenshots/android/crash.png" width="240"><br>**Crash** | <img src="docs/screenshots/android/feedback.png" width="240"><br>**Feedback** |
-| <img src="docs/screenshots/android/remote-logging.png" width="240"><br>**Remote Logging** | <img src="docs/screenshots/android/api-tracking.png" width="240"><br>**API Tracking** | <img src="docs/screenshots/android/updates.png" width="240"><br>**In-App Updates** |
-| <img src="docs/screenshots/android/ratings.png" width="240"><br>**In-App Ratings** | <img src="docs/screenshots/android/remote-config.png" width="240"><br>**Remote Config** | <img src="docs/screenshots/android/push.png" width="240"><br>**Push** |
+| <img src="docs/screenshots/ios/home.png" width="240"><br>**Home** | <img src="docs/screenshots/ios/identify-user.png" width="240"><br>**Identify User** | <img src="docs/screenshots/ios/analytics.png" width="240"><br>**Analytics** |
+| <img src="docs/screenshots/ios/privacy.png" width="240"><br>**Privacy & Consent** | <img src="docs/screenshots/ios/crash.png" width="240"><br>**Crash** | <img src="docs/screenshots/ios/feedback.png" width="240"><br>**Feedback** |
+| <img src="docs/screenshots/ios/remote-logging.png" width="240"><br>**Remote Logging** | <img src="docs/screenshots/ios/api-tracking.png" width="240"><br>**API Tracking** | <img src="docs/screenshots/ios/updates.png" width="240"><br>**In-App Updates** |
+| <img src="docs/screenshots/ios/ratings.png" width="240"><br>**In-App Ratings** | <img src="docs/screenshots/ios/remote-config.png" width="240"><br>**Remote Config** | <img src="docs/screenshots/ios/push.png" width="240"><br>**Push** |
+
+The same screens captured on Android are in [`docs/screenshots/android/`](docs/screenshots/android).
 
 ---
 
